@@ -9,32 +9,64 @@ import SwiftUI
 
 struct TaskListView: View {
     @StateObject private var viewModel: TaskListViewModel = .init()
-    @State var toggle: Bool = false
 
     var body: some View {
         NavigationView {
             VStack {
+                HStack {
+                    TextField(text: $viewModel.inputContent) {
+                        Text("内容を入力してください")
+                    }
+                    .textFieldStyle(.roundedBorder)
+
+                    Button {
+                        viewModel.onTapCreateButton()
+                    } label: {
+                        Text("作成")
+                    }
+
+                }
+                .padding()
+
                 List {
-                    ForEach(viewModel.taskList.items) { item in
+                    ForEach(viewModel.todoTaskList()) { item in
                         HStack {
                             Text("\(item.content)")
-                            Toggle("Toggle", isOn: $toggle)
-                              .toggleStyle(CheckBoxToggleStyle())
+
+                            Spacer()
+
+                            Button {
+                                viewModel.onTapDoneButton(id: item.id)
+                            } label: {
+                                Text("完了")
+                                    .foregroundColor(.blue)
+                            }
+
                         }
                     }
                 }
+
+                List {
+                    ForEach(viewModel.doneTaskList()) { item in
+                        HStack {
+                            Text("\(item.content)")
+
+                            Spacer()
+
+                            Button {
+                                viewModel.onTapTodoButton(id: item.id)
+                            } label: {
+                                Text("未完了")
+                                    .foregroundColor(.blue)
+                            }
+
+                        }
+                    }
+                }
+
             }
             .navigationTitle("TODOアプリ")
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing){
-                    Button(action: {
-
-                    }) {
-                        Image(systemName: "plus")
-                    }
-                }
-            }
         }
     }
 

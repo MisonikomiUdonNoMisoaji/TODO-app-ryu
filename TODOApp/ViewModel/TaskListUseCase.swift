@@ -17,6 +17,10 @@ struct TaskListUseCase {
         return taskList.chageToDONE(id: id)
     }
 
+    static func uncompleteTask(id: UUID, taskList: TaskList) -> TaskList {
+        return taskList.chageToTODO(id: id)
+    }
+
     static func deleteTask(id: UUID, taskList: TaskList) -> TaskList {
         return taskList.delete(id: id)
     }

@@ -11,17 +11,29 @@ class TaskListViewModel: ObservableObject {
     @Published var taskList: TaskList = .init(items: [])
     @Published var inputContent: String = ""
 
+    func todoTaskList() -> [TaskItem] {
+        taskList.items.filter { taskItem in
+            taskItem.status == .todo
+        }
+    }
+
+    func doneTaskList() -> [TaskItem] {
+        taskList.items.filter { taskItem in
+            taskItem.status == .done
+        }
+    }
+
     private let useCase = TaskListUseCase.self
 
     func onTapCreateButton() {
         taskList = useCase.createTaskItem(content: inputContent, taskList: taskList)
     }
 
-    func onTapCheckBox(checkBoxValue: Bool, id: UUID) {
-        if checkBoxValue == true {
-            taskList = useCase.completeTask(id: id, taskList: taskList)
-        }
+    func onTapDoneButton(id: UUID) {
+        taskList = useCase.completeTask(id: id, taskList: taskList)
+    }
 
-        // 完了 → 未完了になる場合はまだ考慮しない
+    func onTapTodoButton(id: UUID) {
+        taskList = useCase.uncompleteTask(id: id, taskList: taskList)
     }
 }
