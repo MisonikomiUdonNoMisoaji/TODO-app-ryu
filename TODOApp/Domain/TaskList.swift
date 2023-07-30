@@ -26,7 +26,15 @@ struct TaskList {
         return TaskList(items: newItems)
     }
 
-    func chageStatus(id: UUID, to status: TaskItem.TaskStatus) -> TaskList {
+    func chageToTODO(id: UUID) -> TaskList {
+        chageStatus(id: id, to: .todo)
+    }
+
+    func chageToDONE(id: UUID) -> TaskList {
+        chageStatus(id: id, to: .done)
+    }
+
+    private func chageStatus(id: UUID, to status: TaskItem.TaskStatus) -> TaskList {
         let newItems = self.items.map { taskItem in
             if taskItem.id != id {
                 return taskItem
