@@ -8,16 +8,16 @@
 import Foundation
 
 struct TaskListUseCase {
-    func createTaskItem(content: String, taskList: TaskList) -> TaskList {
+    static func createTaskItem(content: String, taskList: TaskList) -> TaskList {
         let newTaskItem = TaskItem(id: UUID(), content: content, status: .todo, createdAt: Date.now)
         return taskList.add(item: newTaskItem)
     }
 
-    func completeTask(id: UUID, taskList: TaskList) -> TaskList {
+    static func completeTask(id: UUID, taskList: TaskList) -> TaskList {
         return taskList.chageToDONE(id: id)
     }
 
-    func deleteTask(id: UUID, taskList: TaskList) -> TaskList {
+    static func deleteTask(id: UUID, taskList: TaskList) -> TaskList {
         return taskList.delete(id: id)
     }
 }
